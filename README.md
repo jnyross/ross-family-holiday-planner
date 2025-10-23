@@ -2,6 +2,8 @@
 
 A Next.js application for planning family holidays with destination scoring, climate data, and shortlist management.
 
+**Live Demo:** https://ross-family-holiday-planner.vercel.app
+
 ## Tech Stack
 
 - **Frontend**: Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS
@@ -67,16 +69,25 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 └── public/            # Static assets
 ```
 
-## Features (Planned)
+## Features
 
-- ✅ Supabase backend with 112 destinations
-- ✅ Climate data for each destination
-- ✅ Automatic destination scoring system
-- 🚧 Destination browsing and filtering
-- 🚧 Holiday period selection
-- 🚧 Candidate marking interface
-- 🚧 Selection workflow
-- 🚧 Shortlist management
+### Completed ✅
+- Supabase backend with 112 destinations
+- Climate data for each destination (monthly temperature & rainfall)
+- Automatic destination scoring system
+- Destination browsing with grid layout
+- Advanced filtering (region, budget, type, flight hours, search)
+- Destination detail pages with climate tables
+- Responsive design with dark mode
+- Navigation with mobile menu
+- Live deployment on Vercel
+
+### In Progress 🚧
+- Holiday period selection interface
+- Candidate marking functionality
+- Shortlist management page
+- Score breakdown visualization
+- User authentication
 
 ## Development
 
