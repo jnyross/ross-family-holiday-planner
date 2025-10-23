@@ -9,6 +9,18 @@
 
 **Core Task**: For each destination provided, you will perform web research to populate a set of data fields, including basic information, flight logistics, family-friendliness ratings, accommodation metrics, and monthly climate data.
 
+### ⚠️ CRITICAL COMPLETENESS REQUIREMENTS
+
+**YOU MUST PROVIDE ALL 100 DESTINATIONS IN YOUR RESPONSE.**
+
+- **DO NOT STOP EARLY**: The response must contain exactly 100 destination objects in the JSON array
+- **NO TRUNCATION**: Do not provide partial lists (e.g., only 2, 10, or 50 destinations)
+- **VALIDATION**: Before submitting, verify your JSON contains all 100 destinations numbered 1-100
+- **CONTINUATION**: If you need multiple messages to complete all 100 destinations, explicitly state "CONTINUED IN NEXT MESSAGE" and continue where you left off
+- **QUALITY OVER SPEED**: It's acceptable to take time to research all destinations thoroughly, but you MUST complete all 100
+
+**Failure to provide all 100 destinations will result in an incomplete database and the task will need to be restarted.**
+
 ---
 
 ## 2. RESEARCH METHODOLOGY & DATA SOURCES
@@ -248,6 +260,10 @@ To ensure you understand the task, here is a complete, researched example for th
 ### Your Research Task: 100 Destinations
 
 Now, proceed by researching the following **100 destinations**. Provide the output in the single, valid JSON format as specified above.
+
+**⚠️ REMINDER: YOU MUST RESEARCH AND RETURN ALL 100 DESTINATIONS LISTED BELOW.**
+
+Do not stop after a few destinations. The JSON response must contain exactly 100 destination objects. If you need to continue in a follow-up message, clearly indicate where you stopped and continue from that point.
 
 **EUROPE (35 destinations)**
 1. Crete, Greece
