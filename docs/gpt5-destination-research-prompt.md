@@ -3,7 +3,7 @@
 
 ## 1. OVERVIEW
 
-**Objective**: Research and compile verified data for 20-50 family-friendly holiday destinations per session. Your primary goal is to expand our database from 112 to over 200 destinations with high-quality, structured data suitable for a PostgreSQL database.
+**Objective**: Research and compile verified data for 100 family-friendly holiday destinations in this session. Your primary goal is to expand our database from 112 to over 200 destinations with high-quality, structured data suitable for a PostgreSQL database.
 
 **Your Role**: You are a research assistant tasked with gathering accurate and verifiable data using your web search capabilities. You must adhere strictly to the specified JSON output format and follow the data verification and sourcing guidelines outlined below.
 
@@ -79,7 +79,7 @@ For each destination, populate the following fields and adhere to the specified 
 
 ## 4. BATCH PROCESSING & DESTINATION PRIORITIES
 
-You will be given a list of 20-50 destinations to process in each batch. Focus your research on the following types of destinations to ensure a balanced and desirable database expansion.
+You will be given a list of 100 destinations to process in this session. Focus your research on the following types of destinations to ensure a balanced and desirable database expansion.
 
 ### 4.1. Destination Types to Prioritize
 1.  **Popular Family Beach Destinations**: Well-known, safe, and easy beach holidays.
@@ -245,27 +245,122 @@ To ensure you understand the task, here is a complete, researched example for th
 }
 ```
 
-### Your First Research Batch
+### Your Research Task: 100 Destinations
 
-Now, proceed by researching the following **20 destinations**. Provide the output in the single, valid JSON format as specified above.
+Now, proceed by researching the following **100 destinations**. Provide the output in the single, valid JSON format as specified above.
 
-1.  Crete, Greece
-2.  Rhodes, Greece
-3.  Dubrovnik, Croatia
-4.  Split, Croatia
-5.  St. Lucia
-6.  Antigua
-7.  Phuket, Thailand
-8.  Langkawi, Malaysia
-9.  Bali, Indonesia
-10. Dubai, UAE
-11. Muscat, Oman
-12. Orlando, Florida, USA
-13. San Diego, California, USA
-14. Maui, Hawaii, USA
-15. Cancun, Mexico
-16. Male, Maldives
-17. Mauritius
-18. Seychelles
-19. Majorca, Spain
-20. Tenerife, Spain
+**EUROPE (35 destinations)**
+1. Crete, Greece
+2. Rhodes, Greece
+3. Corfu, Greece
+4. Mykonos, Greece
+5. Zakynthos, Greece
+6. Kos, Greece
+7. Dubrovnik, Croatia
+8. Split, Croatia
+9. Hvar, Croatia
+10. Pula, Croatia
+11. Algarve (Faro), Portugal
+12. Madeira, Portugal
+13. Azores, Portugal
+14. Majorca, Spain
+15. Tenerife, Spain
+16. Gran Canaria, Spain
+17. Ibiza, Spain
+18. Menorca, Spain
+19. Costa del Sol (Marbella), Spain
+20. Costa Brava, Spain
+21. Amalfi Coast, Italy
+22. Sicily, Italy
+23. Sardinia, Italy
+24. Lake Garda, Italy
+25. French Riviera (Nice), France
+26. Corsica, France
+27. Cyprus (Paphos)
+28. Cyprus (Ayia Napa)
+29. Malta (Valletta)
+30. Gozo, Malta
+31. Algarve (Lagos), Portugal
+32. Lanzarote, Spain
+33. Fuerteventura, Spain
+34. Sorrento, Italy
+35. Puglia, Italy
+
+**CARIBBEAN (15 destinations)**
+36. Barbados
+37. St. Lucia
+38. Antigua
+39. Jamaica (Montego Bay)
+40. Jamaica (Negril)
+41. Turks and Caicos
+42. Aruba
+43. Dominican Republic (Punta Cana)
+44. Bahamas (Nassau)
+45. Grenada
+46. St. Kitts and Nevis
+47. Cayman Islands
+48. US Virgin Islands (St. Thomas)
+49. British Virgin Islands
+50. Curacao
+
+**SOUTHEAST ASIA (15 destinations)**
+51. Phuket, Thailand
+52. Koh Samui, Thailand
+53. Krabi, Thailand
+54. Hua Hin, Thailand
+55. Langkawi, Malaysia
+56. Penang, Malaysia
+57. Bali, Indonesia
+58. Lombok, Indonesia
+59. Gili Islands, Indonesia
+60. Bintan, Indonesia
+61. Boracay, Philippines
+62. Palawan, Philippines
+63. Cebu, Philippines
+64. Nha Trang, Vietnam
+65. Phu Quoc, Vietnam
+
+**MIDDLE EAST (8 destinations)**
+66. Dubai, UAE
+67. Abu Dhabi, UAE
+68. Ras Al Khaimah, UAE
+69. Muscat, Oman
+70. Salalah, Oman
+71. Doha, Qatar
+72. Aqaba, Jordan
+73. Eilat, Israel
+
+**NORTH AMERICA (15 destinations)**
+74. Orlando, Florida, USA
+75. Miami, Florida, USA
+76. Key West, Florida, USA
+77. San Diego, California, USA
+78. Los Angeles, California, USA
+79. Maui, Hawaii, USA
+80. Oahu (Honolulu), Hawaii, USA
+81. Kauai, Hawaii, USA
+82. Cancun, Mexico
+83. Riviera Maya (Playa del Carmen), Mexico
+84. Cabo San Lucas, Mexico
+85. Puerto Vallarta, Mexico
+86. Tulum, Mexico
+87. Las Vegas, Nevada, USA
+88. Scottsdale, Arizona, USA
+
+**INDIAN OCEAN (7 destinations)**
+89. Male, Maldives
+90. Mauritius
+91. Seychelles (Mahe)
+92. Sri Lanka (Colombo)
+93. Zanzibar, Tanzania
+94. Reunion Island, France
+95. Praslin, Seychelles
+
+**AFRICA (3 destinations)**
+96. Marrakech, Morocco
+97. Sharm El Sheikh, Egypt
+98. Cape Town, South Africa
+
+**OCEANIA (2 destinations)**
+99. Gold Coast, Australia
+100. Fiji (Nadi)
