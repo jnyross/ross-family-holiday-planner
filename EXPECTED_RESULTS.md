@@ -30,7 +30,7 @@ This document shows the expected score changes after applying the comprehensive 
 - Weather 30%, Flight 25%, Beach 15%, Kids 15%, Luxury 15% = 100%
 
 **New:**
-- Weather 35%, Flight 25%, Jet-lag 5%, Beach 15%, Kids 15%, Luxury 5% = 100%
+- Weather 30%, Flight 25%, Jet-lag 5%, Beach 15%, Kids 15%, Luxury 10% = 100%
 
 ### 5. Cost Modifier
 **REMOVED** - Price sensitivity is not factored into rankings
@@ -41,13 +41,13 @@ This document shows the expected score changes after applying the comprehensive 
 
 | Component | Old Score | New Score | Change | Weight | Contribution |
 |-----------|-----------|-----------|--------|--------|--------------|
-| Weather | 90 | ~85* | -5 | 35% | 29.75 |
+| Weather | 90 | ~85* | -5 | 30% | 25.50 |
 | Flight (6h) | 75 | 80 | +5 | 25% | 20.00 |
 | Jet-lag (+2h) | N/A | 100 | NEW | 5% | 5.00 |
 | Beach (9/10) | 90 | 90 | 0 | 15% | 13.50 |
 | Kids (7/10) | 70 | 70 | 0 | 15% | 10.50 |
-| Luxury (25%**) | 56 | 50 | -6 | 5% | 2.50 |
-| **FINAL SCORE** | **78*** | **81** | **+3** | - | - |
+| Luxury (25%**) | 56 | 50 | -6 | 10% | 5.00 |
+| **FINAL SCORE** | **78*** | **80** | **+2** | - | - |
 
 \* Estimated - weather scoring improved with temp high/low
 \*\* Fixed from 56% to 25%
@@ -57,12 +57,12 @@ This document shows the expected score changes after applying the comprehensive 
 
 | Component | Old Score | New Score | Change | Weight | Contribution |
 |-----------|-----------|-----------|--------|--------|--------------|
-| Weather | 100 | ~95* | -5 | 35% | 33.25 |
+| Weather | 100 | ~95* | -5 | 30% | 28.50 |
 | Flight (7h) | 60 | 68 | +8 | 25% | 17.00 |
 | Jet-lag (+4h) | N/A | 80 | NEW | 5% | 4.00 |
 | Beach (8/10) | 80 | 80 | 0 | 15% | 12.00 |
 | Kids (9/10) | 90 | 90 | 0 | 15% | 13.50 |
-| Luxury (78%) | 78 | 88 | +10 | 5% | 4.40 |
+| Luxury (78%) | 78 | 88 | +10 | 10% | 8.80 |
 | **FINAL SCORE** | **82*** | **84** | **+2** | - | - |
 
 \* Estimated - weather may be slightly lower with better temp high/low scoring
@@ -77,8 +77,8 @@ This document shows the expected score changes after applying the comprehensive 
 
 ### NEW System:
 1. Dubai: 84
-2. Sharm el-Sheikh: 81
-- **Gap: 3 points** (Dubai wins!)
+2. Sharm el-Sheikh: 80
+- **Gap: 4 points** (Dubai wins!)
 
 ## Why Does Dubai Now Rank Higher?
 
@@ -105,10 +105,10 @@ This document shows the expected score changes after applying the comprehensive 
 ## Breakdown by Category
 
 **Dubai Advantages:**
-- Weather: +10 points (95 vs 85) = +3.5 final
-- Luxury: +38 points (88 vs 50) = +1.9 final
+- Weather: +10 points (95 vs 85) = +3.0 final (30% weight)
+- Luxury: +38 points (88 vs 50) = +3.8 final (10% weight - DOUBLED impact!)
 - Kids: +20 points (90 vs 70) = +3.0 final
-- **Total advantage: ~8.4 points**
+- **Total advantage: ~9.8 points**
 
 **Sharm Advantages:**
 - Flight: +12 points (80 vs 68) = +3.0 final
@@ -116,7 +116,12 @@ This document shows the expected score changes after applying the comprehensive 
 - Beach: +10 points (90 vs 80) = +1.5 final
 - **Total advantage: ~5.5 points**
 
-**Net: Dubai wins by ~3 points** ✓
+**Net: Dubai wins by ~4 points** ✓
+
+**Luxury Impact Increased:**
+- With 5% weight: Dubai advantage was 1.9 points
+- With 10% weight: Dubai advantage now 3.8 points
+- **Luxury now has DOUBLE the impact on final scores!**
 
 ## Is This The Right Outcome?
 
