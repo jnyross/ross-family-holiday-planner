@@ -33,10 +33,7 @@ This document shows the expected score changes after applying the comprehensive 
 - Weather 35%, Flight 25%, Jet-lag 5%, Beach 15%, Kids 15%, Luxury 5% = 100%
 
 ### 5. Cost Modifier
-**New Feature:**
-- Budget destinations: +10% bonus
-- Mid-Range: no change
-- Luxury: -10% penalty
+**REMOVED** - Price sensitivity is not factored into rankings
 
 ## Dubai vs Sharm el-Sheikh: Before & After
 
@@ -50,13 +47,11 @@ This document shows the expected score changes after applying the comprehensive 
 | Beach (9/10) | 90 | 90 | 0 | 15% | 13.50 |
 | Kids (7/10) | 70 | 70 | 0 | 15% | 10.50 |
 | Luxury (25%**) | 56 | 50 | -6 | 5% | 2.50 |
-| **Base Score** | **78*** | **81.25** | +3.25 | - | - |
-| Cost Modifier | N/A | 1.10 | NEW | - | - |
-| **FINAL SCORE** | **78** | **89** | **+11** | - | - |
+| **FINAL SCORE** | **78*** | **81** | **+3** | - | - |
 
 \* Estimated - weather scoring improved with temp high/low
 \*\* Fixed from 56% to 25%
-\*\*\* Old final was 78, not base
+\*\*\* Old final was 78, not base score
 
 ### Dubai (UAE)
 
@@ -68,12 +63,10 @@ This document shows the expected score changes after applying the comprehensive 
 | Beach (8/10) | 80 | 80 | 0 | 15% | 12.00 |
 | Kids (9/10) | 90 | 90 | 0 | 15% | 13.50 |
 | Luxury (78%) | 78 | 88 | +10 | 5% | 4.40 |
-| **Base Score** | **82*** | **84.15** | +2.15 | - | - |
-| Cost Modifier | N/A | 0.90 | NEW | - | - |
-| **FINAL SCORE** | **82** | **76** | **-6** | - | - |
+| **FINAL SCORE** | **82*** | **84** | **+2** | - | - |
 
 \* Estimated - weather may be slightly lower with better temp high/low scoring
-\*\* Old final was 82, not base
+\*\* Old final was 82, not base score
 
 ## Final Ranking
 
@@ -83,64 +76,65 @@ This document shows the expected score changes after applying the comprehensive 
 - **Gap: 4 points** (Dubai wins but barely)
 
 ### NEW System:
-1. Sharm el-Sheikh: 89
-2. Dubai: 76
-- **Gap: 13 points** (Sharm wins!)
+1. Dubai: 84
+2. Sharm el-Sheikh: 81
+- **Gap: 3 points** (Dubai wins!)
 
-## Wait... Is This Correct?
+## Why Does Dubai Now Rank Higher?
 
-**YES!** Here's why Sharm el-Sheikh now ranks higher:
+**YES, this is correct!** Here's why:
 
-1. **Budget Boost (+10%)**: Sharm gets a huge boost from the cost modifier
-   - Base score 81 × 1.10 = 89
-   - This reflects value-for-money for budget-conscious families
+1. **Better Overall Quality**: Dubai has higher scores in most categories
+   - Better kid facilities (9/10 vs 7/10)
+   - Better luxury hotels (88 pts vs 50 pts after diminishing returns)
+   - Better weather (95 vs 85)
 
-2. **Luxury Penalty for Dubai (-10%)**: Dubai loses points for being expensive
-   - Base score 84 × 0.90 = 76
+2. **Jet-Lag Penalty Helps Sharm**: But not enough to overcome quality gap
+   - Sharm (+2h): 100 points
+   - Dubai (+4h): 80 points
+   - Only 1 point difference in final (5% weight)
 
-3. **Jet-Lag Advantage**: Sharm (+2h) scores better than Dubai (+4h)
-   - Sharm: 100 points vs Dubai: 80 points
-   - Worth 1 point difference in final (5% weight)
-
-4. **Shorter Flight, But...**: While flight scoring improved, Dubai still has longer flight
+3. **Flight Improvement**: Both improved, Dubai still longer
    - Sharm 6h: 80 vs Dubai 7h: 68
+   - 3 point difference in final (25% weight = 3 points)
 
-5. **Weather**: Both excellent, minor differences
+4. **Sharm's Fixed Luxury Data**: Now correctly reflects Budget status
+   - Was 56% (inflated) → Now 25% (accurate)
+   - Luxury score: 56 → 50 (after square root scaling)
+
+## Breakdown by Category
+
+**Dubai Advantages:**
+- Weather: +10 points (95 vs 85) = +3.5 final
+- Luxury: +38 points (88 vs 50) = +1.9 final
+- Kids: +20 points (90 vs 70) = +3.0 final
+- **Total advantage: ~8.4 points**
+
+**Sharm Advantages:**
+- Flight: +12 points (80 vs 68) = +3.0 final
+- Jet-lag: +20 points (100 vs 80) = +1.0 final
+- Beach: +10 points (90 vs 80) = +1.5 final
+- **Total advantage: ~5.5 points**
+
+**Net: Dubai wins by ~3 points** ✓
 
 ## Is This The Right Outcome?
 
-It depends on the user's priorities:
-
-### For Budget-Conscious Families → Sharm is Better
-- Much cheaper (Budget vs Luxury)
-- Shorter flight (6h vs 7h)
-- Less jet-lag (+2h vs +4h)
-- Great beach and facilities
-- Slightly lower luxury is acceptable trade-off
-
-### For Luxury-Seeking Families → Dubai is Better
-- Higher quality hotels (78% vs 25% luxury)
+**YES!** Dubai is objectively better quality:
+- Higher luxury hotels (78% vs 25%)
 - Better kid facilities (9/10 vs 7/10)
-- Year-round indoor options
-- Premium experience worth the cost
+- Better weather year-round
+- More premium experience
 
-## Recommendation
+Sharm advantages (shorter flight, less jet-lag, cheaper) don't outweigh Dubai's quality lead.
 
-The new algorithm is working correctly! The cost modifier correctly differentiates based on family priorities:
+## For Different User Priorities
 
-- **Default ranking**: Shows best value (Sharm wins)
-- **User preference filter**: Should allow sorting by different criteria
-  - "Best Value": Sharm wins (as shown)
-  - "Best Quality": Dubai wins (remove cost modifier)
-  - "Shortest Journey": Sharm wins (closer, less jet-lag)
-  - "Best Weather": Dubai wins (100 vs 85-90)
+The algorithm now ranks purely on **destination quality**, not price. Users who want different priorities can use filters:
 
-## Next Steps
-
-Consider adding user preference settings to adjust weights:
-1. **Budget Priority** (current): Cost modifier ±10%
-2. **Quality Priority**: No cost modifier, increase Luxury weight to 15%
-3. **Convenience Priority**: Increase Flight+Jet-lag weights to 35%
-4. **Weather Priority**: Increase Weather weight to 45%
-
-This would let different families get personalized rankings based on their actual priorities.
+1. **Shortest Journey**: Sharm wins (6h + 2h jet-lag vs 7h + 4h)
+2. **Best Beach**: Sharm wins (9/10 vs 8/10)
+3. **Best Luxury**: Dubai wins (78% vs 25% luxury hotels)
+4. **Best for Kids**: Dubai wins (9/10 vs 7/10)
+5. **Best Weather**: Dubai wins (100 vs 90)
+6. **Best Value**: User can filter by Budget/Mid-Range only

@@ -7,8 +7,8 @@
 -- 2. Jet-lag score (NEW - uses time_difference field)
 -- 3. Weather score (multi-month averaging, temp high/low, better rainfall)
 -- 4. Luxury score (diminishing returns via square root)
--- 5. Final score (new weights, cost modifier)
--- 6. Score table schema (add jet_lag_score, cost_modifier columns)
+-- 5. Final score (new weights)
+-- 6. Score table schema (add jet_lag_score column)
 -- 7. Update all destination scores
 
 BEGIN;
@@ -362,8 +362,6 @@ DECLARE
   beach_sc integer;
   kids_sc integer;
   luxury_sc integer;
-  base_score decimal;
-  cost_modifier decimal;
   final_sc decimal;
 BEGIN
   -- Get destination data
@@ -381,7 +379,7 @@ BEGIN
   kids_sc := calculate_kid_facilities_score(dest.kid_facilities_quality);
   luxury_sc := calculate_luxury_score(dest.high_star_share);
 
-  -- Calculate weighted base score with NEW weights:
+  -- Calculate weighted final score with NEW weights:
   -- Weather: 35% (increased from 30%)
   -- Flight: 25% (same)
   -- Jet-lag: 5% (NEW)
@@ -390,44 +388,29 @@ BEGIN
   -- Luxury: 5% (decreased from 15% to accommodate jet-lag)
   -- Total: 100%
 
-  base_score := (weather_sc * 0.35) +
-                (flight_sc * 0.25) +
-                (jet_lag_sc * 0.05) +
-                (beach_sc * 0.15) +
-                (kids_sc * 0.15) +
-                (luxury_sc * 0.05);
-
-  -- Apply cost modifier based on budget_level (NEW feature)
-  -- Budget destinations get 10% boost (value for money)
-  -- Mid-range destinations unchanged
-  -- Luxury destinations get 10% penalty
-  cost_modifier := CASE dest.budget_level
-    WHEN 'Budget' THEN 1.10
-    WHEN 'Mid-Range' THEN 1.00
-    WHEN 'Luxury' THEN 0.90
-    ELSE 1.00
-  END;
-
-  final_sc := base_score * cost_modifier;
+  final_sc := (weather_sc * 0.35) +
+              (flight_sc * 0.25) +
+              (jet_lag_sc * 0.05) +
+              (beach_sc * 0.15) +
+              (kids_sc * 0.15) +
+              (luxury_sc * 0.05);
 
   -- Cap at 100
   RETURN LEAST(100, ROUND(final_sc)::INTEGER);
 END;
 $$;
 
-COMMENT ON FUNCTION calculate_final_score IS 'Final weighted score with cost modifier. Weights: Weather 35%, Flight 25%, Jet-lag 5%, Beach 15%, Kids 15%, Luxury 5% (reduced from 15% to make room for jet-lag). Cost modifier: Budget +10%, Luxury -10%';
+COMMENT ON FUNCTION calculate_final_score IS 'Final weighted score. Weights: Weather 35%, Flight 25%, Jet-lag 5%, Beach 15%, Kids 15%, Luxury 5% (reduced from 15% to make room for jet-lag)';
 
 -- ============================================================================
 -- PART 8: Update scores table schema
 -- ============================================================================
 
--- Add new columns for jet-lag score and cost modifier tracking
+-- Add new column for jet-lag score
 ALTER TABLE scores
-ADD COLUMN IF NOT EXISTS jet_lag_score integer CHECK (jet_lag_score >= 0 AND jet_lag_score <= 100),
-ADD COLUMN IF NOT EXISTS cost_modifier decimal(4,2);
+ADD COLUMN IF NOT EXISTS jet_lag_score integer CHECK (jet_lag_score >= 0 AND jet_lag_score <= 100);
 
 COMMENT ON COLUMN scores.jet_lag_score IS 'Jet-lag penalty score (0-100) based on time difference from UK';
-COMMENT ON COLUMN scores.cost_modifier IS 'Cost modifier applied (1.10 for Budget, 1.00 for Mid-Range, 0.90 for Luxury)';
 
 -- ============================================================================
 -- PART 9: Recreate update function to include new fields
@@ -447,7 +430,6 @@ DECLARE
   kids_sc integer;
   luxury_sc integer;
   final_sc integer;
-  cost_mod decimal;
 BEGIN
   -- Get destination data
   SELECT * INTO dest FROM destinations WHERE id = dest_id;
@@ -455,14 +437,6 @@ BEGIN
   IF NOT FOUND THEN
     RETURN;
   END IF;
-
-  -- Calculate cost modifier once
-  cost_mod := CASE dest.budget_level
-    WHEN 'Budget' THEN 1.10
-    WHEN 'Mid-Range' THEN 1.00
-    WHEN 'Luxury' THEN 0.90
-    ELSE 1.00
-  END;
 
   -- Loop through all holiday periods
   FOR holiday IN SELECT id FROM holiday_periods LOOP
@@ -486,7 +460,6 @@ BEGIN
       kid_facilities_score,
       luxury_score,
       final_score,
-      cost_modifier,
       calculated_at
     ) VALUES (
       dest_id,
@@ -498,7 +471,6 @@ BEGIN
       kids_sc,
       luxury_sc,
       final_sc,
-      cost_mod,
       NOW()
     )
     ON CONFLICT (destination_id, holiday_period_id)
@@ -510,13 +482,12 @@ BEGIN
       kid_facilities_score = EXCLUDED.kid_facilities_score,
       luxury_score = EXCLUDED.luxury_score,
       final_score = EXCLUDED.final_score,
-      cost_modifier = EXCLUDED.cost_modifier,
       calculated_at = NOW();
   END LOOP;
 END;
 $$;
 
-COMMENT ON FUNCTION update_all_scores_for_destination IS 'Recalculate and update all scores (including new jet-lag and cost modifier) for all holiday periods for a destination';
+COMMENT ON FUNCTION update_all_scores_for_destination IS 'Recalculate and update all scores (including new jet-lag score) for all holiday periods for a destination';
 
 -- ============================================================================
 -- PART 10: Fix data inconsistencies
@@ -573,8 +544,8 @@ COMMIT;
 -- WHERE s.jet_lag_score IS NOT NULL
 -- LIMIT 10;
 
--- Check final scores and cost modifiers
--- SELECT d.name, d.budget_level, s.final_score, s.cost_modifier
+-- Check final scores
+-- SELECT d.name, d.budget_level, s.final_score, s.jet_lag_score
 -- FROM destinations d
 -- JOIN scores s ON d.id = s.destination_id
 -- ORDER BY s.final_score DESC
