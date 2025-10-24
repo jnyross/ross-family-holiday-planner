@@ -35,12 +35,12 @@ export default function ScoreBreakdown({
   }
 
   const scores = [
-    { label: 'Weather', value: weatherScore, weight: '20%' },
+    { label: 'Weather', value: weatherScore, weight: '25%' },
     { label: 'Flight', value: flightScore, weight: '25%' },
     { label: 'Jet-lag', value: jetLagScore, weight: '5%' },
     { label: 'Beach', value: beachScore, weight: '15%' },
     { label: 'Kids', value: kidFacilitiesScore, weight: '15%' },
-    { label: 'Luxury', value: luxuryScore, weight: '20%' },
+    { label: 'Luxury', value: luxuryScore, weight: '15%' },
   ]
 
   if (compact) {
