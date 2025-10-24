@@ -16,9 +16,9 @@ export default function Navigation() {
 
   const navigation = [
     { name: 'Home', href: '/' },
+    { name: 'Periods', href: '/periods' },
     { name: 'Destinations', href: '/destinations' },
     { name: 'Shortlist', href: '/shortlist' },
-    { name: 'Periods', href: '/periods' },
   ]
 
   const isActive = (href: string) => {

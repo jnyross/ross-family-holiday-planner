@@ -1,18 +1,25 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useParams, useRouter } from 'next/navigation'
-import { getDestinationById, getClimateDataForDestination, getAllHolidayPeriods, getScoresForDestination } from '@/lib/queries'
-import type { Destination, ClimateData, HolidayPeriod, Score } from '@/lib/supabase'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
+import { getDestinationById, getClimateDataForDestination, getScoresForDestination, getHolidayPeriodById, getScoresForHolidayPeriod } from '@/lib/queries'
+import type { Destination, ClimateData, HolidayPeriod } from '@/lib/supabase'
+import ScoreBreakdown from '@/app/components/ScoreBreakdown'
 
 export default function DestinationDetailPage() {
   const params = useParams()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const destinationId = params.id as string
+  const periodId = searchParams.get('period')
 
   const [destination, setDestination] = useState<Destination | null>(null)
   const [climate, setClimate] = useState<ClimateData[]>([])
   const [scores, setScores] = useState<any[]>([])
+  const [selectedPeriod, setSelectedPeriod] = useState<HolidayPeriod | null>(null)
+  const [selectedPeriodScore, setSelectedPeriodScore] = useState<any>(null)
+  const [rankInPeriod, setRankInPeriod] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -21,11 +28,22 @@ export default function DestinationDetailPage() {
       try {
         setLoading(true)
 
-        const [destResult, climateResult, scoresResult] = await Promise.all([
+        const basePromises = [
           getDestinationById(destinationId),
           getClimateDataForDestination(destinationId),
           getScoresForDestination(destinationId)
-        ])
+        ]
+
+        // If periodId is provided, fetch period-specific data
+        if (periodId) {
+          basePromises.push(
+            getHolidayPeriodById(periodId) as any,
+            getScoresForHolidayPeriod(periodId) as any
+          )
+        }
+
+        const results = await Promise.all(basePromises)
+        const [destResult, climateResult, scoresResult, periodResult, allPeriodScoresResult] = results
 
         if (destResult.error) throw new Error('Failed to load destination')
         if (!destResult.data) {
@@ -36,6 +54,29 @@ export default function DestinationDetailPage() {
         setDestination(destResult.data)
         setClimate(climateResult.data || [])
         setScores(scoresResult.data || [])
+
+        // Handle period-specific data
+        if (periodId && periodResult && allPeriodScoresResult) {
+          if (!periodResult.error && periodResult.data) {
+            setSelectedPeriod(periodResult.data)
+          }
+
+          // Find this destination's score in the period
+          if (!allPeriodScoresResult.error && allPeriodScoresResult.data) {
+            const thisDestScore = allPeriodScoresResult.data.find(
+              (s: any) => s.destination_id === destinationId
+            )
+            if (thisDestScore) {
+              setSelectedPeriodScore(thisDestScore)
+
+              // Calculate rank
+              const rank = allPeriodScoresResult.data.findIndex(
+                (s: any) => s.destination_id === destinationId
+              ) + 1
+              setRankInPeriod(rank)
+            }
+          }
+        }
       } catch (err) {
         console.error('Error fetching destination details:', err)
         setError('Failed to load destination details')
@@ -45,7 +86,7 @@ export default function DestinationDetailPage() {
     }
 
     fetchDestinationDetails()
-  }, [destinationId])
+  }, [destinationId, periodId])
 
   if (loading) {
     return (
@@ -80,19 +121,115 @@ export default function DestinationDetailPage() {
 
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr)
+    return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+  }
+
+  const getRankBadgeColor = (rank: number) => {
+    if (rank === 1) return 'from-yellow-400 to-yellow-600 text-white'
+    if (rank === 2) return 'from-gray-300 to-gray-400 text-gray-900'
+    if (rank === 3) return 'from-orange-400 to-orange-600 text-white'
+    return 'from-blue-500 to-blue-600 text-white'
+  }
+
+  const getRankEmoji = (rank: number) => {
+    if (rank === 1) return '🥇'
+    if (rank === 2) return '🥈'
+    if (rank === 3) return '🥉'
+    return `#${rank}`
+  }
+
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Back Button */}
-        <button
-          onClick={() => router.back()}
-          className="mb-6 flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-        >
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to Destinations
-        </button>
+        {/* Breadcrumb / Back Button */}
+        {periodId && selectedPeriod ? (
+          <div className="mb-6 text-sm text-gray-600 dark:text-gray-400">
+            <Link href="/periods" className="hover:text-blue-600 dark:hover:text-blue-400">
+              Holiday Periods
+            </Link>
+            <span className="mx-2">›</span>
+            <Link
+              href={`/periods/${periodId}/results`}
+              className="hover:text-blue-600 dark:hover:text-blue-400"
+            >
+              {selectedPeriod.name}
+            </Link>
+            <span className="mx-2">›</span>
+            <span>{destination?.name}</span>
+          </div>
+        ) : (
+          <button
+            onClick={() => router.back()}
+            className="mb-6 flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+          >
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back
+          </button>
+        )}
+
+        {/* Period-Specific Score Highlight */}
+        {selectedPeriod && selectedPeriodScore && rankInPeriod && (
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800 rounded-lg shadow-xl p-6 mb-8 text-white">
+            <div className="flex items-start gap-6">
+              <div className={`flex-shrink-0 w-20 h-20 rounded-full bg-gradient-to-br ${getRankBadgeColor(rankInPeriod)} flex items-center justify-center text-2xl font-bold shadow-lg`}>
+                {getRankEmoji(rankInPeriod)}
+              </div>
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold mb-2">
+                  Ranked #{rankInPeriod} for {selectedPeriod.name}
+                </h2>
+                <p className="text-blue-100 mb-4">
+                  {formatDate(selectedPeriod.start_date)} - {formatDate(selectedPeriod.end_date)}
+                </p>
+                <div className="flex items-baseline gap-3 mb-4">
+                  <span className="text-4xl font-bold">{Math.round(selectedPeriodScore.final_score)}</span>
+                  <span className="text-xl text-blue-100">/ 100</span>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                  <div className="text-sm text-blue-100 mb-2">Score Breakdown</div>
+                  <div className="grid grid-cols-3 md:grid-cols-6 gap-3 text-sm">
+                    <div>
+                      <div className="text-blue-200">Weather</div>
+                      <div className="font-bold">{Math.round(selectedPeriodScore.weather_score)}</div>
+                    </div>
+                    <div>
+                      <div className="text-blue-200">Flight</div>
+                      <div className="font-bold">{Math.round(selectedPeriodScore.flight_score)}</div>
+                    </div>
+                    <div>
+                      <div className="text-blue-200">Jet-lag</div>
+                      <div className="font-bold">{Math.round(selectedPeriodScore.jet_lag_score)}</div>
+                    </div>
+                    <div>
+                      <div className="text-blue-200">Beach</div>
+                      <div className="font-bold">{Math.round(selectedPeriodScore.beach_score)}</div>
+                    </div>
+                    <div>
+                      <div className="text-blue-200">Kids</div>
+                      <div className="font-bold">{Math.round(selectedPeriodScore.kid_facilities_score)}</div>
+                    </div>
+                    <div>
+                      <div className="text-blue-200">Luxury</div>
+                      <div className="font-bold">{Math.round(selectedPeriodScore.luxury_score)}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex-shrink-0">
+                <Link
+                  href={`/periods/${periodId}/results`}
+                  className="inline-block bg-white text-blue-600 font-semibold px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors"
+                >
+                  See All Rankings
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Header */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 mb-8">
