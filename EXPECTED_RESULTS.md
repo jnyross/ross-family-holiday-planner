@@ -30,7 +30,7 @@ This document shows the expected score changes after applying the comprehensive 
 - Weather 30%, Flight 25%, Beach 15%, Kids 15%, Luxury 15% = 100%
 
 **New:**
-- Weather 30%, Flight 25%, Jet-lag 5%, Beach 15%, Kids 15%, Luxury 10% = 100%
+- Weather 20%, Flight 25%, Jet-lag 5%, Beach 15%, Kids 15%, Luxury 20% = 100%
 
 ### 5. Cost Modifier
 **REMOVED** - Price sensitivity is not factored into rankings
@@ -41,13 +41,13 @@ This document shows the expected score changes after applying the comprehensive 
 
 | Component | Old Score | New Score | Change | Weight | Contribution |
 |-----------|-----------|-----------|--------|--------|--------------|
-| Weather | 90 | ~85* | -5 | 30% | 25.50 |
+| Weather | 90 | ~85* | -5 | 20% | 17.00 |
 | Flight (6h) | 75 | 80 | +5 | 25% | 20.00 |
 | Jet-lag (+2h) | N/A | 100 | NEW | 5% | 5.00 |
 | Beach (9/10) | 90 | 90 | 0 | 15% | 13.50 |
 | Kids (7/10) | 70 | 70 | 0 | 15% | 10.50 |
-| Luxury (25%**) | 56 | 50 | -6 | 10% | 5.00 |
-| **FINAL SCORE** | **78*** | **80** | **+2** | - | - |
+| Luxury (25%**) | 56 | 50 | -6 | 20% | 10.00 |
+| **FINAL SCORE** | **78*** | **76** | **-2** | - | - |
 
 \* Estimated - weather scoring improved with temp high/low
 \*\* Fixed from 56% to 25%
@@ -57,13 +57,13 @@ This document shows the expected score changes after applying the comprehensive 
 
 | Component | Old Score | New Score | Change | Weight | Contribution |
 |-----------|-----------|-----------|--------|--------|--------------|
-| Weather | 100 | ~95* | -5 | 30% | 28.50 |
+| Weather | 100 | ~95* | -5 | 20% | 19.00 |
 | Flight (7h) | 60 | 68 | +8 | 25% | 17.00 |
 | Jet-lag (+4h) | N/A | 80 | NEW | 5% | 4.00 |
 | Beach (8/10) | 80 | 80 | 0 | 15% | 12.00 |
 | Kids (9/10) | 90 | 90 | 0 | 15% | 13.50 |
-| Luxury (78%) | 78 | 88 | +10 | 10% | 8.80 |
-| **FINAL SCORE** | **82*** | **84** | **+2** | - | - |
+| Luxury (78%) | 78 | 88 | +10 | 20% | 17.60 |
+| **FINAL SCORE** | **82*** | **83** | **+1** | - | - |
 
 \* Estimated - weather may be slightly lower with better temp high/low scoring
 \*\* Old final was 82, not base score
@@ -76,9 +76,9 @@ This document shows the expected score changes after applying the comprehensive 
 - **Gap: 4 points** (Dubai wins but barely)
 
 ### NEW System:
-1. Dubai: 84
-2. Sharm el-Sheikh: 80
-- **Gap: 4 points** (Dubai wins!)
+1. Dubai: 83
+2. Sharm el-Sheikh: 76
+- **Gap: 7 points** (Dubai wins decisively!)
 
 ## Why Does Dubai Now Rank Higher?
 
@@ -105,10 +105,10 @@ This document shows the expected score changes after applying the comprehensive 
 ## Breakdown by Category
 
 **Dubai Advantages:**
-- Weather: +10 points (95 vs 85) = +3.0 final (30% weight)
-- Luxury: +38 points (88 vs 50) = +3.8 final (10% weight - DOUBLED impact!)
+- Weather: +10 points (95 vs 85) = +2.0 final (20% weight)
+- Luxury: +38 points (88 vs 50) = +7.6 final (20% weight - QUADRUPLED from original!)
 - Kids: +20 points (90 vs 70) = +3.0 final
-- **Total advantage: ~9.8 points**
+- **Total advantage: ~12.6 points**
 
 **Sharm Advantages:**
 - Flight: +12 points (80 vs 68) = +3.0 final
@@ -116,22 +116,26 @@ This document shows the expected score changes after applying the comprehensive 
 - Beach: +10 points (90 vs 80) = +1.5 final
 - **Total advantage: ~5.5 points**
 
-**Net: Dubai wins by ~4 points** ✓
+**Net: Dubai wins by ~7 points** ✓
 
-**Luxury Impact Increased:**
-- With 5% weight: Dubai advantage was 1.9 points
-- With 10% weight: Dubai advantage now 3.8 points
-- **Luxury now has DOUBLE the impact on final scores!**
+**Luxury Impact Evolution:**
+- Original (15% weight): 5.7 point advantage
+- First reduction (5% weight): 1.9 point advantage
+- First increase (10% weight): 3.8 point advantage
+- **Current (20% weight): 7.6 point advantage - NEARLY AS HIGH AS ORIGINAL!**
+- Luxury is now THE MOST IMPORTANT differentiator after Flight!
 
 ## Is This The Right Outcome?
 
-**YES!** Dubai is objectively better quality:
-- Higher luxury hotels (78% vs 25%)
+**ABSOLUTELY!** Dubai is objectively better quality and luxury now properly reflects this:
+- **MUCH higher luxury hotels (78% vs 25%) - NOW HEAVILY WEIGHTED**
 - Better kid facilities (9/10 vs 7/10)
 - Better weather year-round
 - More premium experience
 
-Sharm advantages (shorter flight, less jet-lag, cheaper) don't outweigh Dubai's quality lead.
+With luxury at 20% weight, the algorithm now strongly favors destinations with high-quality hotels. This makes sense for families who want a premium, hassle-free experience.
+
+Sharm advantages (shorter flight, less jet-lag) can't overcome Dubai's massive luxury advantage (7.6 points!).
 
 ## For Different User Priorities
 

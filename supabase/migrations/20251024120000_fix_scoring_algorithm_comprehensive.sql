@@ -380,27 +380,27 @@ BEGIN
   luxury_sc := calculate_luxury_score(dest.high_star_share);
 
   -- Calculate weighted final score with NEW weights:
-  -- Weather: 30% (same as old)
+  -- Weather: 20% (reduced from 30% to give luxury more impact)
   -- Flight: 25% (same)
   -- Jet-lag: 5% (NEW)
   -- Beach: 15% (same)
   -- Kids: 15% (same)
-  -- Luxury: 10% (increased from original 15%, reduced to accommodate jet-lag)
+  -- Luxury: 20% (increased from original 15%, now 20% for maximum impact)
   -- Total: 100%
 
-  final_sc := (weather_sc * 0.30) +
+  final_sc := (weather_sc * 0.20) +
               (flight_sc * 0.25) +
               (jet_lag_sc * 0.05) +
               (beach_sc * 0.15) +
               (kids_sc * 0.15) +
-              (luxury_sc * 0.10);
+              (luxury_sc * 0.20);
 
   -- Cap at 100
   RETURN LEAST(100, ROUND(final_sc)::INTEGER);
 END;
 $$;
 
-COMMENT ON FUNCTION calculate_final_score IS 'Final weighted score. Weights: Weather 30%, Flight 25%, Jet-lag 5%, Beach 15%, Kids 15%, Luxury 10%';
+COMMENT ON FUNCTION calculate_final_score IS 'Final weighted score. Weights: Weather 20%, Flight 25%, Jet-lag 5%, Beach 15%, Kids 15%, Luxury 20% (doubled for maximum impact)';
 
 -- ============================================================================
 -- PART 8: Update scores table schema
